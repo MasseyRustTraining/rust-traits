@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 use rust_traits::*;
 
 fn main() {
@@ -5,13 +7,11 @@ fn main() {
     println!("{}", f);
 
     let c = Celsius::from(Fahrenheit::new(35));
-    println!("{}", f);
+    println!("{}", c);
 
-    if f == c {
-        println!("{} == {}", f, c);
-    } else if f < c {
-        println!("{} < {}", f, c);
-    } else {
-        println!("{} > {}", f, c);
+    match f.cmp(&c.into()) {
+        Ordering::Equal => println!("{} == {}", f, c),
+        Ordering::Less => println!("{} < {}", f, c),
+        Ordering::Greater => println!("{} == {}", f, c),
     }
 }
