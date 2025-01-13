@@ -1,5 +1,34 @@
 use std::fmt::{self, Display, Formatter};
 
+pub trait Temperature {
+    fn from_kelvin(self) -> i64;
+    fn into_kelvin(self) -> i64;
+}
+
+impl<U: Temperature> PartialOrd<U> for Fahrenheit {
+    fn partial_cmp(&self, other: &U) -> Option<std::cmp::Ordering> {
+        self.into_kelvin().partial_cmp(&other.into_kelvin())
+    }
+}
+
+impl<U: Temperature> PartialOrd<U> for Celsius {
+    fn partial_cmp(&self, other: &U) -> Option<std::cmp::Ordering> {
+        self.into_kelvin().partial_cmp(&other.into_kelvin())
+    }
+}
+
+impl<U: Temperature> PartialEq<U> for Fahrenheit {
+    fn eq(&self, other: &U) -> bool {
+        self.into_kelvin().partial_eq(&other.into_kelvin())
+    }
+}
+
+impl<U: Temperature> PartialEq<U> for Celsius {
+    fn eq(&self, other: &U) -> bool {
+        self.into_kelvin().partial_eq(&other.into_kelvin())
+    }
+}
+
 /// Temperature in Fahrenheit.
 #[derive(Debug, Clone, Copy, PartialOrd, Ord, PartialEq, Eq)]
 pub struct Fahrenheit(i64);
